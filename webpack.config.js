@@ -2,7 +2,7 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  watch: false,
+  watch: true,
   resolve: {
     extensions: ['.ts', '.js'],
     alias: {

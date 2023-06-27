@@ -8,13 +8,15 @@ let oldTime: number = 0
 let delta: number = 0
 
 // config
-initialConfig()
+initialConfig(context)
 eventsConnection()
 
 // start
 function start(newTime: number): void{
+  context.fillStyle = '#FFFFFF'
+  context.fillRect(0, 0, canvas.width, canvas.height)
   delta = newTime - oldTime
-  gameLoop(delta, context)
+  gameLoop(delta)
   oldTime = newTime
   requestAnimationFrame(time => start(time))
 }
