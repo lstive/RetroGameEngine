@@ -13,7 +13,7 @@ eventsConnection()
 
 // start
 function start(newTime: number): void{
-  context.fillStyle = '#FFFFFF'
+  context.fillStyle = '#292929'
   context.fillRect(0, 0, canvas.width, canvas.height)
   delta = newTime - oldTime
   gameLoop(delta)
