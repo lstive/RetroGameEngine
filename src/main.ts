@@ -1,8 +1,14 @@
 /* game make*/
 import { DrawableSquare } from "=/retroGameEngine/drawable/drawable";
 import Vector from "=/retroGameEngine/vector/vector";
+import Player from '=/game/player'
+import Block from '=/game/block'
 
 let square: DrawableSquare
+let otherSquare: DrawableSquare
+let player: Player
+let block: Block
+
 let speed: Vector
 let rad: number
 let isKey: boolean
@@ -14,27 +20,42 @@ export function initialConfig(context: CanvasRenderingContext2D): void{
   rad = 0
   magSpeed = 0
   speed = new Vector(1, -1)
-  square = new DrawableSquare(context, 200, 200, 20, 20, '#FFFFFF')
+
+  // new method
+  block = new Block(context, 200, 200, 100, 100, '#f0bd30')
+  player = new Player(context, 20, 20, 20, 20, '#FFFFFF')
+
+  // connect collision
+  player.canCollideWith(block)
 }
 
+let collisions = 2
+
 export function gameLoop(delta: number): void{
+  block.render()
+  player.render(speed.angle)
 
-  square.render(speed.angle)
+  // on collision
+  if(player.collisions()){
+    block.color = '#f03a30'
+  }else{
+    block.color = '#f0bd30'
+  }
 
-  if(square.position.x > 400){
-    square.position.x = 0
-  }else if(square.position.x < 0){
-    square.position.x = 400
-  }else if(square.position.y < 0){
-    square.position.y = 400
-  }else if(square.position.y > 400){
-    square.position.y = 0
+  if(player.position.x > 400){
+    player.position.x = 0
+  }else if(player.position.x < 0){
+    player.position.x = 400
+  }else if(player.position.y < 0){
+    player.position.y = 400
+  }else if(player.position.y > 400){
+    player.position.y = 0
   }
 
   if(isKey){
     if(key == 'a'){
       speed.rotate(speed.angle - 0.1)
-      square.rotate(2)
+      player.rotate(2)
     }
 
     if(key == 'd'){
@@ -43,7 +64,7 @@ export function gameLoop(delta: number): void{
     }
   }
 
-  square.position = square.position.add(speed)
+  player.position = player.position.add(speed)
   
 }
 
@@ -69,3 +90,14 @@ export function eventsConnection(): void {
     key = null
   })
 }
+
+
+
+class Dog{
+  
+}
+
+class PugDog extends Dog{}
+
+let doggie = new PugDog()
+console.log(doggie instanceof PugDog)
