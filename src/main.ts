@@ -1,13 +1,11 @@
 /* game make*/
-import { DrawableSquare } from "=/retroGameEngine/drawable/drawable";
+import { DrawableColliderSquare, DrawableSquare } from "=/retroGameEngine/drawable/drawable";
 import Vector from "=/retroGameEngine/vector/vector";
-import Player from '=/game/player'
-import Block from '=/game/block'
+import { ColliderSquare } from '=/retroGameEngine/collisionable/collisionable'
+import { DrawableCollisionableSquare } from '=/retroGameEngine/drawable/drawable'
 
-let square: DrawableSquare
-let otherSquare: DrawableSquare
-let player: Player
-let block: Block
+let player: DrawableCollisionableSquare
+let block: DrawableColliderSquare
 
 let speed: Vector
 let rad: number
@@ -22,10 +20,8 @@ export function initialConfig(context: CanvasRenderingContext2D): void{
   speed = new Vector(1, -1)
 
   // new method
-  block = new Block(context, 200, 200, 100, 100, '#f0bd30')
-  player = new Player(context, 20, 20, 20, 20, '#FFFFFF')
-
-  // connect collision
+  block = new DrawableColliderSquare(context, new Vector(200, 200), 100, 100, '#f0bd30')
+  player = new DrawableCollisionableSquare(context, new Vector(20, 20), 20, 20, '#FFFFFF')
   player.canCollideWith(block)
 }
 
@@ -90,14 +86,3 @@ export function eventsConnection(): void {
     key = null
   })
 }
-
-
-
-class Dog{
-  
-}
-
-class PugDog extends Dog{}
-
-let doggie = new PugDog()
-console.log(doggie instanceof PugDog)

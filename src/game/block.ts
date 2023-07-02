@@ -1,8 +1,9 @@
-import { DrawableSquare } from '=/retroGameEngine/drawable/drawable'
-import { ICollider } from '=/retroGameEngine/collisionable/collisionable'
+import { DrawableColliderSquare, DrawableSquare } from '=/retroGameEngine/drawable/drawable'
+import { ICollider, ColliderSquare } from '=/retroGameEngine/collisionable/collisionable'
+import Vector from '=/retroGameEngine/vector/vector'
 
-export default class Block extends DrawableSquare implements ICollider{
-  constructor(context: CanvasRenderingContext2D, x: number, y: number, width: number, height: number, color: string){
-    super(context, x, y, width, height, color)
+export default class Block extends DrawableColliderSquare {
+  constructor(context: CanvasRenderingContext2D, position: Vector, width: number, height: number, color: string){
+    super(context, position, width, height, color)
   }
 }
