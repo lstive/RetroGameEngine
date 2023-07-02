@@ -32,7 +32,7 @@ export class CollisionableSquare extends ShapeSquare implements ICollisionable{
     // detect collision if collision exist return objects that collided
     for(let collider of this.colliders){
       if(collider instanceof ShapeSquare){
-        if(this.position.x - this.width / 2 < collider.position.x + collider.width - collider.width / 2 && collider.position.x - collider.width / 2 < this.position.x + this.width - this.width / 2 && this.position.y - this.width / 2 < collider.position.y + collider.width - collider.width / 2 && collider.position.y - collider.width / 2 < this.position.y + this.width - this.width / 2){
+        if(this.position.x - this.width / 2 < collider.position.x + collider.width - collider.width / 2 && collider.position.x - collider.width / 2 < this.position.x + this.width - this.width / 2 && this.position.y - this.height / 2 < collider.position.y + collider.height - collider.height / 2 && collider.position.y - collider.height / 2 < this.position.y + this.height - this.height / 2){
           collisions.push(collider)
         }
       }
