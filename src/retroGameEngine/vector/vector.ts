@@ -45,4 +45,11 @@ export class UVector extends VectorBasic{
   public scale(magnitude: number): Vector{
     return new Vector(this.x * magnitude, this.y * magnitude)
   }
+
+  public rotate(radians: number): void{
+    this.x = Math.cos(radians)
+    this.y = Math.sin(radians)
+    this.angle = radians
+    this.magnitude = 1
+  }
 }
