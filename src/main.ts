@@ -27,6 +27,7 @@ let key: string
 // pause game
 let paused: boolean
 const pauseButton: HTMLElement = document.getElementById('pause-button')
+let isWallColliding: boolean
 
 pauseButton.addEventListener('click', () => {
   if(paused){
@@ -39,6 +40,7 @@ pauseButton.addEventListener('click', () => {
 export function initialConfig(context: CanvasRenderingContext2D): void{
   isKey = false
   key = ''
+  isWallColliding = false
   
   // instance collisionable elements
   wallTop = new DrawableColliderSquare(context, new Vector(400, 25), 800, 50, 'silver')
@@ -47,7 +49,7 @@ export function initialConfig(context: CanvasRenderingContext2D): void{
   wallRight = new DrawableColliderSquare(context, new Vector(775, 300), 50, 600, 'silver')
 
   ball = new DrawableCollisionableSquare(context, new Vector(400, 300), 20, 20, 'red')
-  player = new DrawableCollisionableSquare(context, new Vector(400, 450), 100, 20, 'skyblue')
+  player = new DrawableCollisionableSquare(context, new Vector(400, 450), 100, 2, 'skyblue')
   
   // instance ball physics
   uSpeed = new UVector(0, 0)
@@ -63,6 +65,8 @@ export function initialConfig(context: CanvasRenderingContext2D): void{
 
   // as you see the collisionables can collide too
   player.canCollideWith(ball)
+  player.canCollideWith(wallLeft)
+  player.canCollideWith(wallRight)
 }
 
 export function gameLoop(delta: number): void{
@@ -74,8 +78,6 @@ export function gameLoop(delta: number): void{
 
   ball.render()
   player.render()
-
-  
 
   // collisions handling
   if(ball.collisions()){
@@ -102,13 +104,6 @@ export function gameLoop(delta: number): void{
     })
   }
 
-  if(player.collisions()){
-    player.collisions().forEach(collision => {
-      speed.y *= -1
-    })
-    player.width -= 10
-  }
-
   if (!paused) {
     // ball movement
     ball.position = ball.position.add(speed)
@@ -126,7 +121,25 @@ export function gameLoop(delta: number): void{
       }
     }
   }
-  
+
+  if(player.collisions()){
+    player.collisions().forEach(collision => {
+      if(collision == ball){
+        speed.y *= -1
+        if(player.width > 10){
+          player.width -= 10
+        }
+      }
+
+      if(collision == wallLeft){
+        player.position.x = player.width + 1
+      }
+
+      if(collision == wallRight){
+        player.position.x = wallRight.position.x - wallRight.width / 2
+      }
+    })
+  }
 }
 
 export function eventsConnection(): void{
